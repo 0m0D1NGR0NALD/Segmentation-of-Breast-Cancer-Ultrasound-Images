@@ -43,7 +43,7 @@ class Decoder(nn.Module):
 
     def crop(self,encoder_features,x):
         _,_,H,W = x.shape
-        encoder_features = torchvision.transforms.CenterCrop([H,W](encoder_features))
+        encoder_features = torchvision.transforms.CenterCrop([H,W])(encoder_features)
         return encoder_features
     
 class UNet(nn.Module):
