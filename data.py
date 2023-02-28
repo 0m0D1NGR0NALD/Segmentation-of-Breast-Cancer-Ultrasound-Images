@@ -26,4 +26,9 @@ class CustomDataset(Dataset):
             transforms.Normalize(
             mean=[0.485, 0.456, 0.406],
             std=[0.229, 0.224, 0.225])])
-    
+    def __getitem__(self,idx):
+        image = Image.open(self.image_path[idx])
+        mask = Image.open(self.target_path[idx])
+        transformed_image,transformed_mask = self.transforms(image,mask)
+        return transformed_image,transformed_mask
+
