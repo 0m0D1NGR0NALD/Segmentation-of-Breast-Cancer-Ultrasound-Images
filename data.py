@@ -2,6 +2,7 @@ from torch.utils.data import Dataset,DataLoader
 from torchvision import transforms
 
 from pathlib import Path
+from sklearn.model_selection import train_test_split
 from PIL import Image
 import os
 
@@ -35,4 +36,7 @@ class CustomDataset(Dataset):
     
     def __len__(self):
         return len(self.image_path)
-
+    
+# Splitting data into train, test and validation set
+train_data,test_data,train_data_masks,test_data_masks,train_labels,test_labels = train_test_split(images,masks,labels,test_size=0.15,shuffle=True,random_state=12)
+train_data,val_data,train_data_masks,val_data_masks,train_labels,val_labels = train_test_split(train_data,train_data_masks,train_labels,test_size=0.15,shuffle=True,random_state=12)
