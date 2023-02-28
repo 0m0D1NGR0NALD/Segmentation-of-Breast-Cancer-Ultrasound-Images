@@ -1,8 +1,10 @@
+import torch
 from torch.utils.data import Dataset,DataLoader
 from torchvision import transforms
 
 from pathlib import Path
 from sklearn.model_selection import train_test_split
+import numpy as np
 from PIL import Image
 import os
 
@@ -33,8 +35,7 @@ class CustomDataset(Dataset):
     def __getitem__(self,index):
         image = Image.open(self.images[index])
         images = self.transforms(image)
-        mask = Image.open(self.masks[index])
-        masks = self.transforms(mask)
+        masks = self.masks
         labels = self.labels
         return images,masks,labels
     
@@ -50,5 +51,6 @@ train_dataset = CustomDataset(images=train_data,masks=train_data_masks,labels=tr
 val_dataset = CustomDataset(images=val_data,masks=val_data_masks,labels=val_labels)
 test_dataset = CustomDataset(images=test_data,masks=test_data_masks,labels=test_labels)
 
-
-
+train_loader = DataLoader(train_dataset,batch_size=4,shuffle=True)
+val_loader = DataLoader(val_dataset,batch_size=4,shuffle=True)
+test_loader = DataLoader(test_dataset,batch_size=4,shuffle=False)
