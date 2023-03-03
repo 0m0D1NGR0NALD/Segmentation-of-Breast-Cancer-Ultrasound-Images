@@ -60,7 +60,7 @@ class Decoder(nn.Module):
 
     def crop(self,encoder_features,x):
         # Capture the dimensions of the inputs 
-        _,_,H,W = x.shape
+        (_,_,H,W) = x.shape
         # Crop the encoder features to match the dimensions
         encoder_features = torchvision.transforms.CenterCrop([H,W])(encoder_features)
         # Return the cropped features
