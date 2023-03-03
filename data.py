@@ -23,6 +23,7 @@ class CustomDataset(Dataset):
         self.images = images
         self.masks = masks
         self.transforms = transforms.Compose([
+            transforms.ToPILImage(),
             transforms.ToTensor(),
             transforms.Resize((224,224))])
         
