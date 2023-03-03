@@ -69,16 +69,25 @@ class Decoder(nn.Module):
 class UNet(nn.Module):
     def __init__(self,encoder_channels=(3,64,128,256,512,1024),decoder_channels=(1024,512,256,128,64),n_classes=1,retain_dim=False,out_size=(572,572)):
         super().__init__()
+        # Initialize the encoder and decoder
         self.encoder = Encoder(encoder_channels)
         self.decoder = Decoder(decoder_channels)
+        # Initailizethe regression head and store the class variables
         self.head  = nn.Conv2d(decoder_channels[-1],n_classes,1)
         self.retain_dim = retain_dim
         self.out_size = out_size
 
     def forward(self,x):
+        # Capture the features fromthe encoder
         encoder_features = self.encoder(x)
+        # Pass the encoder features through the decoder
+        # Ensuring the dimensions are suited for concatenation
         out = self.decoder(encoder_features[::-1][0],encoder_features[::-1][1:])
+        # Pass the decoder features through the regression head to obtain segmentation mask
         out = self.head(out)
+        # Chneck to see if we are retraining the original output
+        # Then, resize the output to match them
         if self.retain_dim:
             out = F.interpolate(out,self.out_size)
-            return out
+        # Return the segmentation map
+        return out
