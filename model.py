@@ -9,7 +9,7 @@ class Block(nn.Module):
         # Store convolution and relu layers
         self.conv1 = nn.Conv2d(in_channels,out_channels,3)
         self.relu = nn.ReLU()
-        self.conv2 = nn.Conv2d(in_channels,out_channels,3)
+        self.conv2 = nn.Conv2d(out_channels,out_channels,3)
 
     def forward(self,x):
         # Apply convolution>>relu>>convolution to inputs and return output
@@ -50,9 +50,9 @@ class Decoder(nn.Module):
             # Pass the inputs through the upconvolution blocks
             x = self.upconvs[i](x)
             # Crop the current features from the encoder blocks
-            encoder_features = self.crop(encoder_features[i],x)
+            enc_features = self.crop(encoder_features[i],x)
             # Concatenate the features with the current upconvolution features
-            x = torch.cat([x,encoder_features],dim=1)
+            x = torch.cat([x,enc_features],dim=1)
             # Pass the concatenated output through the current decoder block
             x = self.decoder_blocks[i](x)
         # Return the final decoder output
