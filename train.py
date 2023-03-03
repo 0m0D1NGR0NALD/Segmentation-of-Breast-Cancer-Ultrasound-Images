@@ -5,11 +5,11 @@ import torch.nn as nn
 import time
 from tqdm import tqdm
 
-from model import UNet
+from model import UNet,unet
 from data import train_loader,val_loader,train_dataset,val_dataset,batch_size
 
 # Initialise UNet model
-model = UNet()
+model = unet(1)
 # Set learning rate
 lr = 0.0001
 # Set number of epochs
@@ -42,13 +42,13 @@ for epoch in tqdm(range(epochs)):
         # Perform a forward pass
         pred = model(images)
         # Calculate the training loss
-        loss = loss(pred,y)
+        loss = loss(pred,masks)
         # Zero out any previously accumulated gradients
         optimizer.zero_grad()
         # Perform backpropagation
         loss.backward()
         # Update model parameters
-        optimzer.step
+        optimizer.step
         # Add the loss to the total training loss so far
         train_loss += loss
 
@@ -63,7 +63,7 @@ for epoch in tqdm(range(epochs)):
             # Make the predictions
             pred = model(images)
             # Calculate the validation loss
-            val_loss += loss(pred,y)
+            val_loss += loss(pred,masks)
     # Calculate the average training and validation loss
     avg_train_loss = train_loss/train_steps
     avg_val_loss = val_loss/val_steps
