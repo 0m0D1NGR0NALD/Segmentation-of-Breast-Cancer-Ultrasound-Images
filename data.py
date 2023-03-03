@@ -36,9 +36,11 @@ class CustomDataset(Dataset):
         image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
         # Read the respective mask
         mask = cv2.imread(mask_path,0)
-        # Performing transforms to image and mask
-        images = self.transforms(image)
-        masks = self.transforms(mask)
+        # Check to see if we are applying any transforms
+        if self.transforms is not None:
+            # Performing transforms to image and mask
+            images = self.transforms(image)
+            masks = self.transforms(mask)
         return (images,masks)
     
     def __len__(self):
