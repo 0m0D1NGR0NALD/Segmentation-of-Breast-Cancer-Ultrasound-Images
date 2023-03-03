@@ -24,10 +24,7 @@ class CustomDataset(Dataset):
         self.masks = masks
         self.transforms = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Resize((224,224)),
-            transforms.Normalize(
-            mean=[0.485, 0.456, 0.406],
-            std=[0.229, 0.224, 0.225])])
+            transforms.Resize((224,224))])
         
     def __getitem__(self,index):
         # Capture image and mask path from the current index
@@ -38,7 +35,7 @@ class CustomDataset(Dataset):
         # Swap the channels
         image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
         # Read the respective mask
-        mask = cv2.imread(mask_path)
+        mask = cv2.imread(mask_path,0)
         # Performing transforms to image and mask
         images = self.transforms(image)
         masks = self.transforms(mask)
