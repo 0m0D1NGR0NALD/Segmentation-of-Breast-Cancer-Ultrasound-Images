@@ -24,7 +24,7 @@ class CustomDataset(Dataset):
         self.masks = masks
         self.transforms = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Resize((224,224))])
+            transforms.Resize((128,128))])
         
     def __getitem__(self,index):
         # Capture image and mask path from the current index
