@@ -8,6 +8,8 @@ import numpy as np
 import cv2
 import os
 
+batch_size = 4
+
 root_dir = 'Dataset/'
 path = Path(root_dir)
 image_paths = list(path.glob('*/*.png'))
@@ -52,6 +54,6 @@ train_dataset = CustomDataset(images=train_data,masks=train_data_masks)
 val_dataset = CustomDataset(images=val_data,masks=val_data_masks)
 test_dataset = CustomDataset(images=test_data,masks=test_data_masks)
 
-train_loader = DataLoader(train_dataset,batch_size=4,shuffle=True)
-val_loader = DataLoader(val_dataset,batch_size=4,shuffle=True)
-test_loader = DataLoader(test_dataset,batch_size=4,shuffle=False)
+train_loader = DataLoader(train_dataset,batch_size=batch_size,shuffle=True)
+val_loader = DataLoader(val_dataset,batch_size=batch_size,shuffle=True)
+test_loader = DataLoader(test_dataset,batch_size=batch_size,shuffle=False)
