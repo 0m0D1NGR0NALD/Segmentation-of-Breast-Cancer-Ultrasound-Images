@@ -39,20 +39,31 @@ class Encoder(nn.Module):
 class Decoder(nn.Module):
     def __init__(self,channels=(1024,512,256,128,64)):
         super().__init__()
+        # Initialize the number of channels, upconvolution blocks and decoder blocks
         self.channels = channels
         self.upconvs = nn.ModuleList([nn.ConvTranspose2d(channels[i],channels[i+1],2,2) for i in range(len(channels)-1)])
         self.decoder_blocks = nn.ModuleList([Block(channels[i],channels[i+1]) for i in range(len(channels)-1)])
     
     def forward(self,x,encoder_features):
+        # Loop through the number of channels
         for i in range(len(self.channels)-1):
+            # Pass the inputs through the upconvolution blocks
             x = self.upconvs[i](x)
+            # Crop the current features from the encoder blocks
             encoder_features = self.crop(encoder_features[i],x)
+            # Concatenate the features with the current upconvolution features
             x = torch.cat([x,encoder_features],dim=1)
+            # Pass the concatenated output through the current decoder block
             x = self.decoder_blocks[i](x)
+        # Return the final decoder output
+        return x
 
     def crop(self,encoder_features,x):
+        # Capture the dimensions of the inputs 
         _,_,H,W = x.shape
+        # Crop the encoder features to match the dimensions
         encoder_features = torchvision.transforms.CenterCrop([H,W])(encoder_features)
+        # Return the cropped features
         return encoder_features
     
 class UNet(nn.Module):
