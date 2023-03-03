@@ -35,7 +35,7 @@ class CustomDataset(Dataset):
         mask_path = self.masks[index]
         # Load image, swap the channels and read the respective mask in grayscale mode
         image = cv2.imread(image_path)
-        mask = cv2.imread(mask_path,0)
+        mask = cv2.imread(mask_path)
         # Performing transforms to image and mask
         images = self.transforms(image)
         masks = self.transforms(mask)
