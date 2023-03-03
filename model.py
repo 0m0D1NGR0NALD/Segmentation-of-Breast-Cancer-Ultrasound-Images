@@ -18,15 +18,22 @@ class Block(nn.Module):
 class Encoder(nn.Module):
     def __init__(self,channels=(3,64,128,256,512,1024)):
         super().__init__()
+        # Store encoder blocks and maxpooling layer
         self.encoder_blocks = nn.ModuleList([Block(channels[i],channels[i+1]) for i in range(len(channels)-1)])
         self.pool = nn.MaxPool2d(2)
 
     def forward(self,x):
+        # Initialize empty list to store intermediate outputs
         features = []
+        # Loop through the encoder blocks
         for block in self.encoder_blocks:
+            # Pass the inputs through the current encoder block 
             x = block(x)
+            # Append and store outputs to list
             features.append(x)
+            # Apply maxpooling on the output
             x = self.pool(x)
+        # Return list with intermediate outputs
         return features
     
 class Decoder(nn.Module):
