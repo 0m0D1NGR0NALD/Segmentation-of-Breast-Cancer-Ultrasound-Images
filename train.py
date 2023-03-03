@@ -63,5 +63,17 @@ for epoch in tqdm(range(epochs)):
             # Make the predictions
             pred = model(images)
             # Calculate the validation loss
-            val_loss += loss(pred,y)        
+            val_loss += loss(pred,y)
+    # Calculate the average training and validation loss
+    avg_train_loss = train_loss/train_steps
+    avg_val_loss = val_loss/val_steps
+    # Update training history
+    history["train_loss"].append(avg_train_loss.cpu().detach().numpy())
+    history['val_loss'].append(avg_val_loss.cpu().detach().numpy())
+    # Print the model training and validation information
+    print(f"Epoch: {epoch+1}/{epochs}")
+    print(f"Train Loss: {avg_train_loss:.6f}, Val Loss: {avg_val_loss:.4f}")
+# Display the total time needed for training
+end_time = time.time()
+print(f"Total training time: {end_time-start_time:.2f}s")
 
