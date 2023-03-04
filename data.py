@@ -56,11 +56,11 @@ class CustomDataset(Dataset):
 train_data,test_data,train_data_masks,test_data_masks = train_test_split(images,masks,test_size=0.15,shuffle=True,random_state=12)
 train_data,val_data,train_data_masks,val_data_masks = train_test_split(train_data,train_data_masks,test_size=0.15,shuffle=True,random_state=12)
 
-# Setting train, val and test DataLoaders
+# Setting train, val and test Datasets
 train_dataset = CustomDataset(images=train_data,masks=train_data_masks)
 val_dataset = CustomDataset(images=val_data,masks=val_data_masks)
 test_dataset = CustomDataset(images=test_data,masks=test_data_masks)
-
+# Setting train, val and test DataLoaders
 train_loader = DataLoader(train_dataset,batch_size=batch_size,shuffle=True)
 val_loader = DataLoader(val_dataset,batch_size=batch_size,shuffle=True)
 test_loader = DataLoader(test_dataset,batch_size=batch_size,shuffle=False)
