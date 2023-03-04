@@ -13,8 +13,9 @@ batch_size = 4
 root_dir = 'Dataset/'
 path = Path(root_dir)
 image_paths = list(path.glob('*/*.png'))
-
+# Creating list of image paths
 images = [str(image_path) for image_path in image_paths if '_mask' not in str(image_path)]
+# Creating list of mask paths
 masks = [str(image_path) for image_path in image_paths if '_mask' in str(image_path)]
 
 class CustomDataset(Dataset):
