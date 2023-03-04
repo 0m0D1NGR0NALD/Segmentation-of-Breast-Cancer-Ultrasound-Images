@@ -8,10 +8,13 @@ import numpy as np
 import cv2
 import os
 
+# Set up batch size
 batch_size = 4
-
+# Root directory to dataset
 root_dir = 'Dataset/'
+# Instantiate root directory of dataset to path 
 path = Path(root_dir)
+# Creating list of both image and mask paths
 image_paths = list(path.glob('*/*.png'))
 # Creating list of image paths
 images = [str(image_path) for image_path in image_paths if '_mask' not in str(image_path)]
