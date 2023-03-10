@@ -1,13 +1,12 @@
 import torch
 from torch.optim import Adam
 import torch.nn as nn
-
 import time
 from tqdm import tqdm
-
 from model import UNet,unet
 from data import train_loader,val_loader,train_dataset,val_dataset,batch_size
 
+# Initializing device to load data and model for training
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu") 
 
 # Initialise UNet model
@@ -64,6 +63,7 @@ for epoch in tqdm(range(epochs)):
             pred = model(images)
             # Calculate the validation loss
             val_loss += loss(pred,masks)
+
     # Calculate the average training and validation loss
     avg_train_loss = train_loss/train_steps
     avg_val_loss = val_loss/val_steps
@@ -73,6 +73,7 @@ for epoch in tqdm(range(epochs)):
     # Print the model training and validation information
     print(f"Epoch: {epoch+1}/{epochs}")
     print(f"Train Loss: {avg_train_loss:.6f}, Val Loss: {avg_val_loss:.4f}")
+
 # Display the total time needed for training
 end_time = time.time()
 print(f"Total training time: {end_time-start_time:.2f}s")
