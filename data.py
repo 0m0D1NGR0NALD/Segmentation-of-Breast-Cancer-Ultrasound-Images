@@ -1,7 +1,6 @@
 import torch
 from torch.utils.data import Dataset,DataLoader
 from torchvision import transforms
-
 from pathlib import Path
 from sklearn.model_selection import train_test_split
 import numpy as np
@@ -46,21 +45,23 @@ class CustomDataset(Dataset):
             # Performing transforms to image and mask
             images = self.transforms(image)
             masks = self.transforms(mask)
+        # Return tuple of images and their respective masks
         return (images,masks)
     
     def __len__(self):
         # Return the number of total images contained in the dataset
         return len(self.images)
     
-# Splitting data into train, test and validation set
+# Splitting images and their respective masks into train, test and validation sets
 train_data,test_data,train_data_masks,test_data_masks = train_test_split(images,masks,test_size=0.15,shuffle=True,random_state=12)
 train_data,val_data,train_data_masks,val_data_masks = train_test_split(train_data,train_data_masks,test_size=0.15,shuffle=True,random_state=12)
 
-# Setting train, val and test Datasets
+# Creating train, val and test Datasets
 train_dataset = CustomDataset(images=train_data,masks=train_data_masks)
 val_dataset = CustomDataset(images=val_data,masks=val_data_masks)
 test_dataset = CustomDataset(images=test_data,masks=test_data_masks)
-# Setting train, val and test DataLoaders
+
+# Creating train, val and test DataLoaders
 train_loader = DataLoader(train_dataset,batch_size=batch_size,shuffle=True)
 val_loader = DataLoader(val_dataset,batch_size=batch_size,shuffle=True)
 test_loader = DataLoader(test_dataset,batch_size=batch_size,shuffle=False)
