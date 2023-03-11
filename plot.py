@@ -1,8 +1,6 @@
 import matplotlib.pyplot as plt
 from train import history
 
-history = {"train_loss":[1,2,3,4],"val_loss":[1,2,3,4]}
-
 # Plot the training loss
 plt.style.use("ggplot")
 plt.figure()
