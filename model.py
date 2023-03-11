@@ -97,9 +97,7 @@ def double_conv(in_channels, out_channels):
         nn.Conv2d(in_channels, out_channels, 3, padding=1),
         nn.ReLU(inplace=True),
         nn.Conv2d(out_channels, out_channels, 3, padding=1),
-        nn.ReLU(inplace=True)
-    )   
-
+        nn.ReLU(inplace=True))   
 
 class unet(nn.Module):
 
@@ -119,8 +117,7 @@ class unet(nn.Module):
         self.dconv_up1 = double_conv(128 + 64, 64)
         
         self.conv_last = nn.Conv2d(64, n_class, 1)
-        
-        
+             
     def forward(self, x):
         conv1 = self.dconv_down1(x)
         x = self.maxpool(conv1)
