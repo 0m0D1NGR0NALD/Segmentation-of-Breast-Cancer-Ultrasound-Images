@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 
 def prepare_plot(orig_img,orig_mask,pred_mask):
     # Initialize our figure
-    figure,ax = plt.subplots(nrows=1,ncols=3,figsize=(10,10)):
+    figure,ax = plt.subplots(nrows=1,ncols=3,figsize=(10,10));
     # Plot the original image, original mask, predicted mask
     ax[0].imshow(orig_mask)
     ax[1].imshow(orig_mask)
